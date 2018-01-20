@@ -1,0 +1,98 @@
+<div style="margin-top:20px;" id="begenmeguncelleme01">
+          
+                            <a style="border-radius:60px;" href="@Url.Action("Index", "Home")" class="btn btn-success btn-xs">Geri Dön</a>
+
+                            @{
+                                if (Session["uye"] != null)
+                                {
+
+                                    if (Model.Begenme.Count > 0)
+                                    {
+
+                                        var begenenuye = Model.Begenme.Where(x => x.Uye.Id == ((Uye)Session["uye"]).Id).FirstOrDefault();
+
+                                        if (begenenuye != null)
+                                        {
+                                            // yalnız üye beğenmiş.
+                                            if (Model.Begenme.Count == 1)
+                                            {
+                                              <!--Vegebenme-->
+
+                                                <a style="border-radius:60px;" href="@Url.Action("Begen","Begenme",new {@Id=Model.Id})" data-ajax-update="#begenmeguncelleme01" data-ajax-mode="replace" data-ajax-method="GET" data-ajax="true" class="btn btn-success btn-xs">
+                                                    <span>yalnız sen</span>
+                                                    <span class="badge badge-default badge-pill">
+                                                        @(  @Model.Begenme.Count)
+                                                        <span class="glyphicon glyphicon-thumbs-up begenme"></span>
+                                                    </span>
+                                                </a>
+
+                                            }
+                                            else
+                                            {
+                                                // üye daha önce beğenmiş.
+                                                <a style="border-radius:60px;" href="@Url.Action("Begen","Begenme",new {@Id=Model.Id})" data-ajax-update="#begenmeguncelleme01" data-ajax-mode="replace" data-ajax-method="GET" data-ajax="true" class="btn btn-success btn-xs">
+                                                    <span> sen ve </span>
+                                                    <span class="badge badge-default badge-pill">
+
+                                                       diğer @(@Model.Begenme.Count - 1) kişi
+                                                        <span class="glyphicon glyphicon-thumbs-up begenme"></span>
+                                                    </span>
+                                                </a>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            // üye bu bloğu daha önce begenmemiş.
+
+                                            <a style="border-radius:60px;" href="@Url.Action("Begen","Begenme",new {@Id=Model.Id})" data-ajax-update="#begenmeguncelleme01" data-ajax-mode="replace" data-ajax-method="GET" data-ajax="true" class="btn btn-success btn-xs">
+                                                <span>Beğen</span>
+                                                <span class="badge badge-default badge-pill">
+                                                    @Model.Begenme.Count
+                                                </span>
+                                            </a>
+
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        // daha önce hiçbir üye beğenme yapmamış.
+
+                                        <a style="border-radius:60px;" href="@Url.Action("Begen","Begenme",new {@Id=Model.Id})" data-ajax-update="#begenmeguncelleme01" data-ajax-mode="replace" data-ajax-method="GET" data-ajax="true" class="btn btn-success btn-xs">
+                                            <span>Beğen</span>
+                                            <span class="badge badge-default badge-pill">
+                                                @Model.Begenme.Count
+                                            </span>
+                                        </a>
+
+                                    }
+                                }
+                                else
+                                {
+                                    <a style="border-radius:60px;" href="#" onclick="myFunction()" class="btn btn-success btn-xs">
+                                        <span> Beğen</span>
+                                        <span class="badge badge-default badge-pill">
+                                            @if (Model.Begenme != null)
+                                            {
+                                                @Model.Begenme.Count
+                                            }
+                                        </span>
+                                    </a>
+                                }
+
+                            }
+                            <a style="border-radius:60px;" href="@Url.Action("BlokDetay", "Home", null)" class="btn btn-success btn-xs">
+                                Yorum
+                                <span class="badge badge-default badge-pill">
+                                    @if (Model.Yorum != null)
+                                     {
+                                        @Model.Yorum.Count
+                                    }
+                                </span>
+
+                            </a>
+
+
+                            <a style="border-radius:60px;" href="@Url.Action("BlokDetay", "Home", null)" class="btn btn-success btn-xs">Paylaş</a>
+                        </div>
